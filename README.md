@@ -10,13 +10,13 @@ It is intented to be used in conjonction with the following modules :
 
 ## Features 
 
-- creates a vnet peering from the source vnet (either hub or spoke) to the target vnet
-- creates firewall rules (in the hub vnet) to allow traffic from the hub gateway to the spokes subnets (both ways)
-- creates user defined rules to enforce the firewall in the hub vnet to the next-hop virtual appliance from the hub gateway or the spoke subnets
+- creates a **vnet peering** from the source vnet (either hub or spoke) to the target vnet
+- creates **firewall rules** (in the hub vnet) to allow traffic from the hub gateway to the spokes subnets (both ways)
+- creates **user defined routes** to enforce the firewall in the hub vnet to the next-hop virtual appliance from the hub gateway or the spoke subnets
 
 ## Usage
 
-**Create a hub vnet and a spoke vnet and assciate them both ways**
+**Create a hub vnet and a spoke vnet and associate them both ways**
 
 ```terraform
 
