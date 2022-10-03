@@ -4,7 +4,7 @@
 */
 
 locals {
-  firewall_count = var.vnet_is_hub && var.firewall_private_ip_address != "" ? 1 : 0
+  firewall_count = var.vnet_is_hub && var.firewall_name != "" ? 1 : 0
 }
 
 /* ----------------------------------------------------------------

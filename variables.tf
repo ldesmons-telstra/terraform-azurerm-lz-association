@@ -41,7 +41,7 @@ variable "remote_vnet_id" {
 
 variable "spoke_subnets_ids" {
   type        = map(string)
-  default     = null
+  default     = {}
   description = "(Optional) The ids of the subnets (mandatory for a spoke vnet)."
 }
 
@@ -50,7 +50,6 @@ variable "spoke_subnets_address_prefixes" {
   default     = []
   description = "(Optional) The address prefixes of the subnets (for a spoke vnet)."
 }
-
 
 /* -----------------------
    vnet gateway variables.
@@ -69,7 +68,7 @@ variable "gateway_subnet_id" {
 variable "firewall_name" {
   type        = string
   default     = ""
-  description = "(Optional) The name of the firewall rules (for the hub vnet)."
+  description = "(Optional) The name of the firewall rules (for the hub vnet). Mandatory if the hub provisions a firewall."
 }
 
 variable "firewall_rules_collection_name" {
@@ -87,23 +86,13 @@ variable "firewall_rules_collection_priority" {
 variable "firewall_private_ip_address" {
   type        = string
   default     = ""
-  description = "(Optional) The private ip of the firewall (for the hub vnet)."
+  description = "(Optional) The private ip of the firewall (for the hub vnet).Mandatory if the hub provisions a firewall."
 }
 
 variable "hub_local_network_gateway_address_space" {
   type        = list(string)
   default     = []
-  description = "(Optional) The address space of the local network gateway (in the hub vnet)."
-}
-
-/* -----------------------
-   Route tables variables (optional).
-   -----------------------
-*/
-variable "route_table_name" {
-  type        = string
-  default     = ""
-  description = "(Optional) The name of the route table."
+  description = "(Optional) The address space of the local network gateway (in the hub vnet).Mandatory if the hub provisions a firewall."
 }
 
 /* -----------------------

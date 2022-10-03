@@ -1,4 +1,4 @@
-# Azure Landing Zone Spoke
+# Azure Landing Zone Hub-Spoke Association
 
 This module associates a **hub vnet** and a **spoke vnet** in an Azure Landing Zone. The association is one-way only : to fully associate the hub and the spokes, one must associate the hub with the spokes, and then every spoke with the hub.
 
@@ -79,16 +79,16 @@ module "vnet_spoke" {
   name                = "vnet-spoke"
   address_space       = ["10.0.0.0/24"]
 
-  subnets = [
-    {
-      address_prefixes = ["10.0.0.0/26"]
+  subnets = {
+    subnet-01 = {
       name             = "subnet-01"
-    },
-    {
-      address_prefixes = ["10.0.0.1/26"]
-      name             = "subnet-02"
+      address_prefixes = ["10.0.0.0/26"]
     }
-  ]
+    subnet-02 = {
+      name             = "subnet-02"
+      address_prefixes = ["10.0.0.1/26"]
+    }
+  }
 
   tags = {
     "environment" : "dev"
@@ -106,6 +106,12 @@ module "hub_spoke_association" {
   # source vnet is hub
   vnet_name   = "my-vnet-hub"
   vnet_is_hub = true
+
+  # firewall rules 
+  firewall_name                           = "my-firewall"
+  firewall_private_ip_address             = module.vnet_hub.firewall_private_ip_address
+  hub_local_network_gateway_address_space = ["192.1.1.0/24", "192.168.0.0/24", "192.168.1.0/24", "192.2.2.0/24"]
+  spoke_subnets_address_prefixes = ["10.0.0.0/26", "10.0.0.1/26"]
 
   # target vnet is the spoke
   remote_vnet_id = module.vnet_spoke.vnet_id
@@ -130,6 +136,12 @@ module "spokes_hub_associations" {
   vnet_name   = "vnet-spoke"
   vnet_is_hub = false
 
+  # firewall rules 
+  firewall_name                           = "my-firewall"
+  firewall_private_ip_address             = module.vnet_hub.firewall_private_ip_address
+  hub_local_network_gateway_address_space = ["192.1.1.0/24", "192.168.0.0/24", "192.168.1.0/24", "192.2.2.0/24"]
+  spoke_subnets_address_prefixes = ["10.0.0.0/26", "10.0.0.1/26"]
+  
   # target vnet is the hub
   remote_vnet_id = module.vnet_hub.vnet_id
 
