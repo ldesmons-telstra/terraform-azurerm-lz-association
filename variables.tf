@@ -29,6 +29,11 @@ variable "vnet_is_hub" {
   description = "True is the vnet is the hub, False if it is a spoke."
 }
 
+variable "remote_vnet_name" {
+  type        = string
+  description = "The name of the remote vnet."
+}
+
 variable "remote_vnet_id" {
   type        = string
   description = "The id of the remote vnet."
