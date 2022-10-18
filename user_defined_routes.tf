@@ -11,7 +11,7 @@ locals {
 # route table from hub gateway -> spoke subnets (via firewall)
 resource "azurerm_route_table" "route_table_hub" {
   count                         = local.route_table_hub_count
-  name                          = "route_table_hub-spoke"
+  name                          = var.route_table_name
   location                      = var.location
   resource_group_name           = var.resource_group_name
   disable_bgp_route_propagation = false
@@ -20,7 +20,7 @@ resource "azurerm_route_table" "route_table_hub" {
   dynamic "route" {
     for_each = var.spoke_subnets_address_prefixes
     content {
-      name                   = "route-gateway-subnet-${route.key}"
+      name                   = "${var.route_name_prefix}-${route.key}"
       address_prefix         = route.value
       next_hop_type          = "VirtualAppliance"
       next_hop_in_ip_address = var.firewall_private_ip_address
@@ -40,7 +40,7 @@ resource "azurerm_subnet_route_table_association" "route_table_hub_association" 
 # route table from spoke subnets -> local network gateway adress space (via firewall)
 resource "azurerm_route_table" "route_table_spoke" {
   count                         = local.route_table_spoke_count
-  name                          = "route_table_spoke-hub"
+  name                          = var.route_table_name
   location                      = var.location
   resource_group_name           = var.resource_group_name
   disable_bgp_route_propagation = false
@@ -49,7 +49,7 @@ resource "azurerm_route_table" "route_table_spoke" {
   dynamic "route" {
     for_each = var.hub_local_network_gateway_address_space
     content {
-      name                   = "route-subnet-gateway-${route.key}"
+      name                   = "${var.route_name_prefix}-${route.key}"
       address_prefix         = route.value
       next_hop_type          = "VirtualAppliance"
       next_hop_in_ip_address = var.firewall_private_ip_address

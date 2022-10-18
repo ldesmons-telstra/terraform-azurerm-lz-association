@@ -22,7 +22,7 @@ resource "azurerm_firewall_network_rule_collection" "firewall_rules_collection" 
 
   # rule hub -> spokes
   rule {
-    name                  = "Hub-To-Spokes"
+    name                  = var.firewall_rules_local_network_to_spokes_name
     source_addresses      = var.hub_local_network_gateway_address_space
     destination_ports     = ["*"]
     destination_addresses = var.spoke_subnets_address_prefixes
@@ -31,7 +31,7 @@ resource "azurerm_firewall_network_rule_collection" "firewall_rules_collection" 
 
   # rule spokes-> hub
   rule {
-    name                  = "Spokes-To-Hub"
+    name                  = var.firewall_rules_spokes_to_local_network_name
     source_addresses      = var.spoke_subnets_address_prefixes
     destination_ports     = ["*"]
     destination_addresses = var.hub_local_network_gateway_address_space

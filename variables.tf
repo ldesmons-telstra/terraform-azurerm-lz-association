@@ -78,7 +78,7 @@ variable "firewall_name" {
 
 variable "firewall_rules_collection_name" {
   type        = string
-  default     = "firewall-rules"
+  default     = ""
   description = "(Optional) The name of the firewall rules collection (for the hub vnet)."
 }
 
@@ -86,6 +86,18 @@ variable "firewall_rules_collection_priority" {
   type        = number
   default     = 500
   description = "(Optional) The priority of the firewall rules collection (for the hub vnet)."
+}
+
+variable "firewall_rules_local_network_to_spokes_name" {
+  type        = string
+  default     = ""
+  description = "(Optional) The name of the firewall rules from the local network to the spokes (for the hub vnet)."
+}
+
+variable "firewall_rules_spokes_to_local_network_name" {
+  type        = string
+  default     = ""
+  description = "(Optional) The name of the firewall rules from spokes to the local network (for the hub vnet)."
 }
 
 variable "firewall_private_ip_address" {
@@ -98,6 +110,22 @@ variable "hub_local_network_gateway_address_space" {
   type        = list(string)
   default     = []
   description = "(Optional) The address space of the local network gateway (in the hub vnet).Mandatory if the hub provisions a firewall."
+}
+
+/* -----------------------
+   Route Tables variables (optional).
+   -----------------------
+*/
+variable "route_table_name" {
+  type        = string
+  default     = ""
+  description = "The name of the route table. Mandatory if the hub provisions a firewall."
+}
+
+variable "route_name_prefix" {
+  type        = string
+  default     = ""
+  description = "The prefix for the name of every route in the route table. Mandatory if the hub provisions a firewall."
 }
 
 /* -----------------------
